@@ -24,6 +24,7 @@ interface FeatureApi {
 @JsonClass(generateAdapter = true)
 data class FeatureResponse(
     @Json(name = "showWelcomeMessage") val showWelcomeMessage: Boolean,
+    @Json(name = "showCountryFlag") val showCountryFlag: Boolean,
 )
 
 object ApiService {

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package blog.tsalikis.exploringfeatureflags
 
 import android.os.Bundle
@@ -7,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,15 +28,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.EmojiSupportMatch
+import androidx.compose.ui.text.PlatformTextStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import blog.tsalikis.exploringfeatureflags.ui.theme.ExploringFeatureFlagsTheme
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -85,10 +91,26 @@ fun Greeting(name: String, modifier: Modifier = Modifier, state: GreetingState) 
                                     .padding(24.dp)
                                     .width(IntrinsicSize.Min)
                             ) {
-                                Text(
-                                    text = stringResource(R.string.welcome_title),
-                                    style = MaterialTheme.typography.titleLarge
-                                )
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    if (state.flagEmoji.isNotEmpty()) {
+                                        Text(
+                                            text = state.flagEmoji,
+                                            style = TextStyle(
+                                                platformStyle = PlatformTextStyle(
+                                                    emojiSupportMatch = EmojiSupportMatch.None
+                                                )
+                                            ),
+                                            modifier = Modifier.padding(end = 5.dp)
+                                        )
+                                        Text(
+                                            text = stringResource(R.string.welcome_title),
+                                            style = MaterialTheme.typography.titleLarge
+                                        )
+                                    }
+                                }
+
                                 Spacer(Modifier.height(12.dp))
                                 Text(stringResource(R.string.welcome_body))
                             }

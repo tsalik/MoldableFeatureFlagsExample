@@ -15,14 +15,31 @@ class GreetingViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            val response = ApiService.retrofit.getFeatures("GR")
-            state = GreetingState.Success(response.showWelcomeMessage)
+            val country = "BR"
+            val response = ApiService.retrofit.getFeatures(country)
+            val showCountryFlag = response.showCountryFlag
+            val flagEmoji = if (showCountryFlag) {
+                when (country) {
+                    "GR" -> "🇬🇷"
+                    "DE" -> "🇩🇪"
+                    "BR" -> "🇧🇷"
+                    "US" -> "🇺🇸"
+                    else -> "🏳️"
+                }
+            } else {
+                ""
+            }
+            state = GreetingState.Success(response.showWelcomeMessage, flagEmoji)
         }
     }
 }
 
 sealed class GreetingState {
     object Loading : GreetingState()
-    data class Success(val showWelcomeMessage: Boolean) : GreetingState()
+    data class Success(
+        val showWelcomeMessage: Boolean,
+        val flagEmoji: String,
+    ) : GreetingState()
+
     data class Error(val throwable: Throwable) : GreetingState()
 }
