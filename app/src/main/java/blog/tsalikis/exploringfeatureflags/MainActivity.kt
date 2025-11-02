@@ -104,11 +104,11 @@ fun Greeting(name: String, modifier: Modifier = Modifier, state: GreetingState) 
                                             ),
                                             modifier = Modifier.padding(end = 5.dp)
                                         )
-                                        Text(
-                                            text = stringResource(R.string.welcome_title),
-                                            style = MaterialTheme.typography.titleLarge
-                                        )
                                     }
+                                    Text(
+                                        text = stringResource(R.string.welcome_title),
+                                        style = MaterialTheme.typography.titleLarge
+                                    )
                                 }
 
                                 Spacer(Modifier.height(12.dp))
